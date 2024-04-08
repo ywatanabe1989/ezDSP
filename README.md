@@ -24,6 +24,7 @@ $ python ./example.py # ./example_outputs/ will be generated.
 
 #### Power Spectrum Density
 <div align="center">
+  <img src="./example_outputs/3_chirp/3_orig.png" height="400">
   <img src="./example_outputs/3_chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="400">
 </div>
 
