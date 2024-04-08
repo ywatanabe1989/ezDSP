@@ -21,6 +21,9 @@ $ python ./example.py # ./example_outputs/ will be generated.
 #### [./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png](./example_outputs/chirp/3_psd_bandstop_filted\ \(20\ -\ 50\ Hz\).png)
 ![chirp PSD](./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png)
 
+#### [./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png](./example_outputs/chirp/3_psd_bandstop_filted%20\(20%20-%2050%20Hz\).png)
+![chirp PSD](./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png)
+
 #### [./example_outputs/tensorpac/4_pac_orig.png](./example_outputs/tensorpac/4_pac_orig.png)
 ![tensorpac PAC](./example_outputs/tensorpac/4_pac_orig.png)
 
