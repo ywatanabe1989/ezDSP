@@ -1,3 +1,6 @@
+![CI](https://github.com/ywatanabe1989/ezdsp/actions/workflows/pip_install.yml/badge.svg)
+![CI](https://github.com/ywatanabe1989/ezdsp/actions/workflows/run_example.yml/badge.svg)
+
 # EZDSP: Easy Digital Signal Processing
 
 ## Key Features
