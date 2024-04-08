@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 02:08:47 (ywatanabe)"
+# Time-stamp: "2024-04-09 03:27:59 (ywatanabe)"
 
 import ezdsp
 from ezdsp._modulation_index import calc_pac_with_tensorpac
@@ -61,6 +61,9 @@ def pac(
 
 if __name__ == "__main__":
     import ezdsp as ed
+    import mngs
+
+    mngs.plt.configure_mpl(plt, fig_scale=3)
 
     # Parameters
     FS = 512
@@ -85,7 +88,7 @@ if __name__ == "__main__":
 
     # ezDSP calculation (on CPU now, due to the limitation in computational resources)
     pac_ed, pha_bands, amp_bands = ed.pac(
-        xx, fs, pha_n_bands=50, amp_n_bands=70, device="cpu"
+        xx, fs, pha_n_bands=50, amp_n_bands=70, device="cuda"
     )
     i_batch, i_ch = 0, 0
     pac_ed = pac_ed[i_batch, i_ch]
@@ -141,3 +144,5 @@ if __name__ == "__main__":
         fig,
         "./example_outputs/pac_calculation_with_ezDSP_and_Tensorpac.png",
     )
+
+    plt.show()
