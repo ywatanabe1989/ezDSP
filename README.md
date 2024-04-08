@@ -86,4 +86,4 @@ To cite EZDSP in your work, please use the following format:
 ```
 
 # Contact
-For further inquiries or contributions, please contact Yusuke WATANABE (ywata1989@gmail.com).
+Yusuke Watanabe (ywata1989@gmail.com).
