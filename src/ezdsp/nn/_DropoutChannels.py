@@ -1,21 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2023-05-04 21:50:22 (ywatanabe)"
+# Time-stamp: "2024-04-08 14:33:00 (ywatanabe)"
 
+import random
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchsummary import summary
-import mngs
-import numpy as np
-import random
 
 
 class DropoutChannels(nn.Module):
-    def __init__(
-        self,
-        dropout=0.5
-    ):
+    def __init__(self, dropout=0.5):
         super().__init__()
         self.dropout = nn.Dropout(p=dropout)
 
@@ -23,11 +20,13 @@ class DropoutChannels(nn.Module):
         """x: [batch_size, n_chs, seq_len]"""
         if self.training:
             orig_chs = torch.arange(x.shape[1])
-            
+
             indi_orig = self.dropout(torch.ones(x.shape[1])).bool()
             chs_to_shuffle = orig_chs[~indi_orig]
 
-            x[:, chs_to_shuffle] = torch.randn(x[:, chs_to_shuffle].shape).to(x.device)
+            x[:, chs_to_shuffle] = torch.randn(x[:, chs_to_shuffle].shape).to(
+                x.device
+            )
 
             # rand_chs = random.sample(list(np.array(chs_to_shuffle)), len(chs_to_shuffle))
 

@@ -6,3 +6,4 @@ pandas
 scipy
 torch_fn
 numpy_fn
+matplotlib
