@@ -3,7 +3,7 @@
 
 # ezDSP: Easy Digital Signal Processing
 
-ezDSP is a digital signal processing toolbox written in PyTorch ([`./src/ezdsp/nn/`](./src/ezdsp/nn/)). Functions in ezDSP handle not only torch.tensors (CPU & GPU) but also numpy.ndarray and pd.DataFrame, with consistent input-output workflow.
+ezDSP is a digital signal processing toolbox written in PyTorch (`./src/ezdsp/nn/`). However, ezDSP not only processes torch.tensors (CPU & GPU) but also handles numpy.ndarray and pd.DataFrame, enabling a consistent and intensive workflow.
 
 
 ## Installation
@@ -30,12 +30,13 @@ $ python ./example.py # ./example_outputs/ will be generated.
 
 #### Phase-Amplitude Coupling
 <div align="center">
-  <img src="./example_outputs/6_tensorpac/4_pac_orig.png" height="400">
+  <img src="./example_outputs/PAC_calculation_with_ezDSP_and_Tensorpac.png" height="400">
+  <!-- <img src="./example_outputs/6_tensorpac/4_pac_orig.png" height="400"> -->
 </div>
 
 ## Quick Start
 ``` python
-import ezdsp
+import ezdsp as ed
 
 # Parameters
 SRC_FS = 1024  # Source sampling frequency
@@ -44,43 +45,52 @@ FREQS_HZ = [10, 30, 100]  # Frequencies in Hz
 LOW_HZ = 20    # Low frequency for bandpass filter
 HIGH_HZ = 50   # High frequency for bandpass filter
 SIGMA = 10     # Sigma for Gaussian filter
+SIG_TYPES = [
+    "uniform",
+    "gauss",
+    "periodic",
+    "chirp",
+    "ripple",
+    "meg",
+    "tensorpac",
+] # Available signal types
 
 
 # Demo Signal
-xx, tt, fs = ezdsp.demo_sig(
+xx, tt, fs = ed.demo_sig(
     t_sec=T_SEC, fs=SRC_FS, freqs_hz=FREQS_HZ, sig_type="chirp"
 )
-# xx is compatible with torch.tensor (on cpu / cuda), numpy.ndarray, or pd.DataFrame.
+# xx is either of torch.tensor (on cpu / cuda), numpy.ndarray, or pd.DataFrame.
 
 # Normalization
-xx_norm = ezdsp.norm.z(xx)
-xx_minmax = ezdsp.norm.minmax(xx)
+xx_norm = ed.norm.z(xx)
+xx_minmax = ed.norm.minmax(xx)
 
 # Resampling
-xx_resampled = ezdsp.resample(xx, fs, TGT_FS)
+xx_resampled = ed.resample(xx, fs, TGT_FS)
 
 # Noise addition
-xx_gauss = ezdsp.add_noise.gauss(xx)
-xx_white = ezdsp.add_noise.white(xx)
-xx_pink = ezdsp.add_noise.pink(xx)
-xx_brown = ezdsp.add_noise.brown(xx)
+xx_gauss = ed.add_noise.gauss(xx)
+xx_white = ed.add_noise.white(xx)
+xx_pink = ed.add_noise.pink(xx)
+xx_brown = ed.add_noise.brown(xx)
 
 # Filtering
-xx_filted_bandpass = ezdsp.filt.bandpass(xx, fs, low_hz=LOW_HZ, high_hz=HIGH_HZ)
-xx_filted_bandstop = ezdsp.filt.bandstop(xx, fs, low_hz=LOW_HZ, high_hz=HIGH_HZ)
-xx_filted_gauss = ezdsp.filt.gauss(xx, sigma=SIGMA)
+xx_filted_bandpass = ed.filt.bandpass(xx, fs, low_hz=LOW_HZ, high_hz=HIGH_HZ)
+xx_filted_bandstop = ed.filt.bandstop(xx, fs, low_hz=LOW_HZ, high_hz=HIGH_HZ)
+xx_filted_gauss = ed.filt.gauss(xx, sigma=SIGMA)
 
 # Hilbert Transformation
-phase, amplitude = ezdsp.hilbert(xx) # or envelope
+phase, amplitude = ed.hilbert(xx) # or envelope
 
 # Wavelet Transformation
-wavelet_coef, wavelet_freqs = ezdsp.wavelet(xx, fs)
+wavelet_coef, wavelet_freqs = ed.wavelet(xx, fs)
 
 # Power Spetrum Density
-psd, psd_freqs = ezdsp.psd(xx, fs)
+psd, psd_freqs = ed.psd(xx, fs)
 
 # Phase-Amplitude Coupling
-pac, freqs_pha, freqs_amp = ezdsp.pac(x_3d, fs) # This function is computationally demanding. Please monitor the RAM/VRAM usage.
+pac, freqs_pha, freqs_amp = ed.pac(x_3d, fs) # This function is computationally demanding. Please monitor the RAM/VRAM usage.
 ```
 
 # Contact

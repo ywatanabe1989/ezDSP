@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 18:57:42 (ywatanabe)"
+# Time-stamp: "2024-04-09 00:49:47 (ywatanabe)"
 
 from ezdsp.nn import PAC
 from torch_fn import torch_fn
@@ -16,6 +16,7 @@ def pac(
     amp_start_hz=60,
     amp_end_hz=160,
     amp_n_bands=100,
+    device="cuda",
 ):
     """
     Compute the phase-amplitude coupling (PAC) for signals. This function automatically handles inputs as

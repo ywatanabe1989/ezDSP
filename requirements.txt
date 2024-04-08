@@ -11,3 +11,4 @@ torch
 torch_fn
 torchaudio
 torchsummary
+mngs==1.2.3
