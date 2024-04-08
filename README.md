@@ -5,7 +5,6 @@
 
 ezDSP is a digital signal processing toolbox written in PyTorch (`./src/ezdsp/nn/`). However, ezDSP not only processes torch.tensors (CPU & GPU) but also handles numpy.ndarray and pd.DataFrame, enabling a consistent and intensive workflow.
 
-
 ## Installation
 ```bash
 $ pip install ezdsp
@@ -31,7 +30,6 @@ $ python ./example.py # ./example_outputs/ will be generated.
 #### Phase-Amplitude Coupling
 <div align="center">
   <img src="./example_outputs/PAC_calculation_with_ezDSP_and_Tensorpac.png" height="400">
-  <!-- <img src="./example_outputs/6_tensorpac/4_pac_orig.png" height="400"> -->
 </div>
 
 ## Quick Start
@@ -93,5 +91,9 @@ psd, psd_freqs = ed.psd(xx, fs)
 pac, freqs_pha, freqs_amp = ed.pac(x_3d, fs) # This function is computationally demanding. Please monitor the RAM/VRAM usage.
 ```
 
+# Alias
+[`mngs.dsp`](https://github.com/ywatanabe1989/mngs/src/mngs/dsp/) has the same functionalities.
+
 # Contact
 Yusuke Watanabe (ywata1989@gmail.com).
+

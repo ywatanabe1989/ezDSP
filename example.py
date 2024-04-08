@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 00:49:15 (ywatanabe)"
+# Time-stamp: "2024-04-09 00:54:41 (ywatanabe)"
 
 import matplotlib
 
@@ -186,44 +186,6 @@ def plot_psd(plt, sigs, sig_col, sig_type):
     return fig
 
 
-def imshow2d(
-    ax,
-    arr_2d,
-    id=None,
-    track=True,
-    cbar_label=None,
-    cmap="viridis",
-):
-    assert arr_2d.ndim == 2
-    # Call the original ax.imshow() method
-    arr_2d = arr_2d.T  # Transpose the array to match imshow's expectations
-    im = ax.imshow(arr_2d, cmap=cmap)
-
-    # Create a colorbar
-    fig = ax.get_figure()
-    cbar = fig.colorbar(im, ax=ax)
-    if cbar_label:
-        cbar.set_label(cbar_label)
-
-    # Invert y-axis to match typical image orientation
-    ax.invert_yaxis()
-
-    return fig
-
-
-def set_ticks(ax, xticks=None, yticks=None):
-
-    if xticks is not None:
-        ax.set_xticks(np.arange(0, len(xticks)))
-        ax.set_xticklabels(xticks)
-
-    if yticks is not None:
-        ax.set_yticks(np.arange(0, len(yticks)))
-        ax.set_yticklabels(yticks)
-
-    return ax
-
-
 def plot_pac(plt, sigs, sig_col, sig_type):
     x_3d = sigs[sig_col].signal
     assert x_3d.ndim == 3
@@ -245,11 +207,11 @@ def plot_pac(plt, sigs, sig_col, sig_type):
     except Exception as e:
         print(e)
         pac, freqs_pha, freqs_amp = ezdsp.pac(x_3d, fs, device="cpu")
-    fig, ax = plt.subplots()
+    fig, ax = mngs.plt.subplots()
     i_batch = 0
     i_ch = 0
-    fig = imshow2d(ax, pac[i_batch, i_ch])
-    ax = set_ticks(
+    ax.imshow2d(pac[i_batch, i_ch])
+    ax = mngs.plt.ax.set_ticks(
         ax,
         xticks=freqs_pha.mean(axis=-1).astype(int),
         yticks=freqs_amp.mean(axis=-1).astype(int),
@@ -270,12 +232,12 @@ if __name__ == "__main__":
     # Parameters
     T_SEC = 4
     SIG_TYPES = [
-        # "uniform",
-        # "gauss",
-        # "periodic",
-        # "chirp",
-        # "ripple",
-        # "meg",
+        "uniform",
+        "gauss",
+        "periodic",
+        "chirp",
+        "ripple",
+        "meg",
         "tensorpac",
     ]
     SRC_FS = 512
