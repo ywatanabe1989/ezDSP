@@ -32,6 +32,9 @@ $ python ./example.py # ./example_outputs/ will be generated.
 <div align="center">
   <img src="./example_outputs/modulation_index_calculation_with_ezDSP_and_Tensorpac.png" height="400">
 </div>
+<!-- <div align="center">
+ !--   <img src="./example_outputs/pac_calculation_with_ezDSP_and_Tensorpac.png" height="400">
+ !-- </div> -->
 
 ## Quick Start
 ``` python

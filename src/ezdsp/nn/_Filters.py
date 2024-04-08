@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 17:37:32 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:50:03 (ywatanabe)"
 
 import math
 import warnings
@@ -145,8 +145,8 @@ class BandPassFilter(BaseFilter1D):
         assert high_hz <= fs / 2
 
         kernel_size = (
-            _to_even(int(1 / low_hz * fs * 3))
-            # _to_even(int(low_hz * fs * 3))
+            # _to_even(int(1 / low_hz * fs * 3))
+            _to_even(int(1 / low_hz * fs * 5))
             if kernel_size is None
             else _to_even(kernel_size)
         )
@@ -169,8 +169,8 @@ class BandStopFilter(BaseFilter1D):
     def __init__(self, low_hz, high_hz, fs, kernel_size=None):
         super().__init__()
         kernel_size = (
-            _to_even(int(1 / low_hz * fs * 3))
-            # _to_even(int(low_hz * fs * 3))
+            _to_even(int(1 / low_hz * fs * 5))
+            # _to_even(int(1 / low_hz * fs * 3))
             if kernel_size is None
             else _to_even(kernel_size)
         )

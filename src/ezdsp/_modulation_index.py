@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 01:10:36 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:55:08 (ywatanabe)"
 
 import torch
 from ezdsp.nn import ModulationIndex
@@ -69,8 +69,8 @@ if __name__ == "__main__":
     mngs.plt.configure_mpl(plt, fig_scale=5)
 
     # Parameters
-    FS = 128
-    T_SEC = 5
+    FS = 512
+    T_SEC = 8
 
     # Demo signal
     xx, tt, fs = ezdsp.demo_sig(
@@ -102,8 +102,8 @@ if __name__ == "__main__":
     fig, axes = mngs.plt.subplots(ncols=3, sharex=True, sharey=True)
 
     # To align scalebars
-    vmin = min(np.min(pac_ed), np.min(pac_tp))
-    vmax = max(np.max(pac_ed), np.max(pac_tp))
+    vmin = min(np.min(pac_ed), np.min(pac_tp), np.min(pac_ed - pac_tp))
+    vmax = max(np.max(pac_ed), np.max(pac_tp), np.max(pac_ed - pac_tp))
 
     # EZDSP
     axes[0].imshow2d(

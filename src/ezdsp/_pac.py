@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 01:25:00 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:54:55 (ywatanabe)"
 
 import ezdsp
 from ezdsp._modulation_index import calc_pac_with_tensorpac
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
     # Parameters
     FS = 512
-    T_SEC = 5
+    T_SEC = 8
 
     xx, tt, fs = ezdsp.demo_sig(
         batch_size=1, n_chs=1, fs=FS, t_sec=T_SEC, sig_type="tensorpac"
@@ -72,8 +72,8 @@ if __name__ == "__main__":
 
     # Tensorpac calculation
     (
-        pha_tp,
-        amp_tp,
+        _,
+        _,
         freqs_pha_tp,  # (50,)
         freqs_amp_tp,  # (70,)
         pac_tp,  # (50, 70)
@@ -94,8 +94,8 @@ if __name__ == "__main__":
     fig, axes = mngs.plt.subplots(ncols=3, sharex=True, sharey=True)
 
     # To align scalebars
-    vmin = min(np.min(pac_ed), np.min(pac_tp))
-    vmax = max(np.max(pac_ed), np.max(pac_tp))
+    vmin = min(np.min(pac_ed), np.min(pac_tp), np.min(pac_ed - pac_tp))
+    vmax = max(np.max(pac_ed), np.max(pac_tp), np.max(pac_ed - pac_tp))
 
     # EZDSP
     axes[0].imshow2d(

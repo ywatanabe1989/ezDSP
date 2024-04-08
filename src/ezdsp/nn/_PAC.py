@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 01:26:52 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:43:37 (ywatanabe)"
 
 
 import warnings
@@ -20,6 +20,7 @@ class PAC(nn.Module):
         amp_start_hz=60,
         amp_end_hz=160,
         amp_n_bands=100,
+        n_bins=18,
     ):
         super().__init__()
 
@@ -37,15 +38,13 @@ class PAC(nn.Module):
 
         # Calculation modules
         self.bandpass_filters_pha = [
-            BandPassFilter(ll, hh, fs, kernel_size=None)
-            for ll, hh in self.BANDS_PHA
+            BandPassFilter(ll, hh, fs) for ll, hh in self.BANDS_PHA
         ]
         self.bandpass_filters_amp = [
-            BandPassFilter(ll, hh, fs, kernel_size=None)
-            for ll, hh in self.BANDS_AMP
+            BandPassFilter(ll, hh, fs) for ll, hh in self.BANDS_AMP
         ]
         self.hilbert = Hilbert(dim=-1)
-        self.modulation_index = ModulationIndex(n_bins=18)
+        self.modulation_index = ModulationIndex(n_bins=n_bins)
 
     def forward(self, x):
         """x.shape: (batch_size, n_chs, seq_len) or (batch_size, n_chs, n_segments, seq_len)"""
@@ -62,45 +61,45 @@ class PAC(nn.Module):
         I_SEQ_LEN = 4
 
         # Phase
-        # pha = torch.stack(
-        #     [bf_pha(x_3d) for bf_pha in self.bandpass_filters_pha],
-        #     dim=I_FREQS - 1,
-        # )
-        # pha = self.hilbert(pha)[..., 0]
-        # pha = pha.reshape(batch_size, n_chs, *pha.shape[1:])
-        # assert pha.ndim == 5
-
-        # # Amplitude
-        # amp = torch.stack(
-        #     [bf_amp(x_3d) for bf_amp in self.bandpass_filters_amp],
-        #     dim=I_FREQS - 1,
-        # )
-        # amp = self.hilbert(amp)[..., 1]
-        # amp = amp.reshape(batch_size, n_chs, *amp.shape[1:])
-        # assert amp.ndim == 5
-
-        pha = (
-            torch.stack(
-                [
-                    self.hilbert(bf_pha(x.squeeze(0)))
-                    for bf_pha in self.bandpass_filters_pha
-                ],
-                dim=I_FREQS,
-            )[..., 0]
-            .unsqueeze(I_CHS)
-            .transpose(I_FREQS, I_SEGMENTS)
+        pha = torch.stack(
+            [bf_pha(x_3d) for bf_pha in self.bandpass_filters_pha],
+            dim=I_FREQS - 1,
         )
-        amp = (
-            torch.stack(
-                [
-                    self.hilbert(bf_amp(x.squeeze(0)))
-                    for bf_amp in self.bandpass_filters_amp
-                ],
-                dim=I_FREQS,
-            )[..., 1]
-            .unsqueeze(I_CHS)
-            .transpose(I_FREQS, I_SEGMENTS)
+        pha = self.hilbert(pha)[..., 0]
+        pha = pha.reshape(batch_size, n_chs, *pha.shape[1:])
+        assert pha.ndim == 5
+
+        # Amplitude
+        amp = torch.stack(
+            [bf_amp(x_3d) for bf_amp in self.bandpass_filters_amp],
+            dim=I_FREQS - 1,
         )
+        amp = self.hilbert(amp)[..., 1]
+        amp = amp.reshape(batch_size, n_chs, *amp.shape[1:])
+        assert amp.ndim == 5
+
+        # pha = (
+        #     torch.stack(
+        #         [
+        #             self.hilbert(bf_pha(x.squeeze(0)))
+        #             for bf_pha in self.bandpass_filters_pha
+        #         ],
+        #         dim=I_FREQS,
+        #     )[..., 0]
+        #     .unsqueeze(I_CHS)
+        #     .transpose(I_FREQS, I_SEGMENTS)
+        # )
+        # amp = (
+        #     torch.stack(
+        #         [
+        #             self.hilbert(bf_amp(x.squeeze(0)))
+        #             for bf_amp in self.bandpass_filters_amp
+        #         ],
+        #         dim=I_FREQS,
+        #     )[..., 1]
+        #     .unsqueeze(I_CHS)
+        #     .transpose(I_FREQS, I_SEGMENTS)
+        # )
         pac = self.modulation_index(pha, amp)
         return pac
 
