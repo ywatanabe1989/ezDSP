@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 16:11:31 (ywatanabe)"
+# Time-stamp: "2024-04-08 17:10:27 (ywatanabe)"
 
 import matplotlib
 
@@ -72,15 +72,6 @@ def plot_signals(plt, sigs, sig_type):
     i_ch = 0
     for ax, (i_col, col) in zip(axes, enumerate(sigs.columns)):
 
-        if col == "hilbert_amp":  # add the original signal to the ax
-            _col = "orig"
-            (
-                _xx,
-                _tt,
-                _fs,
-            ) = sigs[_col]
-            ax.plot(_tt, _xx[i_batch, i_ch], label=_col, c=CC["blue"])
-
         # Main
         xx, tt, fs = sigs[col]
 
@@ -91,6 +82,16 @@ def plot_signals(plt, sigs, sig_type):
                 label=col,
                 c=CC["red"] if col == "hilbert_amp" else CC["blue"],
             )
+
+            if col == "hilbert_amp":  # add the original signal to the ax
+                _col = "orig"
+                (
+                    _xx,
+                    _tt,
+                    _fs,
+                ) = sigs[_col]
+                ax.plot(_tt, _xx[i_batch, i_ch], label=_col, c=CC["blue"])
+
         except Exception as e:
             print(e)
 
@@ -197,6 +198,7 @@ def save_fig(fig, spath):
     _sdir = os.path.split(spath)[0]
     os.makedirs(_sdir, exist_ok=True)
     fig.savefig(spath)
+
     print(f"\nSaved to: {spath}")
 
 
@@ -300,7 +302,7 @@ def configure_mpl(
     # line
     line_width=0.1,
     # Color transparency
-    alpha=0.75,
+    alpha=1.0,
     # Whether to print configurations or not
     verbose=False,
     **kwargs,
@@ -449,7 +451,9 @@ def configure_mpl(
 
 
 if __name__ == "__main__":
-    plt, CC = configure_mpl(plt, verbose=True)
+    import os
+
+    plt, CC = configure_mpl(plt, line_width=0.2, verbose=True)
 
     # Parameters
     T_SEC = 4
@@ -470,8 +474,9 @@ if __name__ == "__main__":
     SIGMA = 10
 
     sdir = "./example_outputs/"
+    os.makedirs(sdir, exist_ok=True)
 
-    for sig_type in SIG_TYPES:
+    for i_sig_type, sig_type in enumerate(SIG_TYPES):
         # Demo Signal
         xx, tt, fs = ezdsp.demo_sig(
             t_sec=T_SEC, fs=SRC_FS, freqs_hz=FREQS_HZ, sig_type=sig_type
@@ -482,7 +487,7 @@ if __name__ == "__main__":
 
         # Plots signals
         fig = plot_signals(plt, sigs, sig_type)
-        save_fig(fig, sdir + f"{sig_type}/1_signals.png")
+        save_fig(fig, sdir + f"{i_sig_type}_{sig_type}/1_signals.png")
 
         # Plots wavelet coefficients and PSD
         for sig_col in sigs.columns:
@@ -491,10 +496,22 @@ if __name__ == "__main__":
                 continue
 
             fig = plot_wavelet(plt, sigs, sig_col, sig_type)
-            save_fig(fig, sdir + f"{sig_type}/2_wavelet_{sig_col}.png")
+            save_fig(
+                fig, sdir + f"{i_sig_type}_{sig_type}/2_wavelet_{sig_col}.png"
+            )
 
             fig = plot_psd(plt, sigs, sig_col, sig_type)
-            save_fig(fig, sdir + f"{sig_type}/3_psd_{sig_col}.png")
+            save_fig(
+                fig, sdir + f"{i_sig_type}_{sig_type}/3_psd_{sig_col}.png"
+            )
 
             fig = plot_pac(plt, sigs, sig_col, sig_type)
-            save_fig(fig, sdir + f"{sig_type}/4_pac_{sig_col}.png")
+            save_fig(
+                fig, sdir + f"{i_sig_type}_{sig_type}/4_pac_{sig_col}.png"
+            )
+
+"""
+rm -rf ./example_outputs/
+mkdir ./example_outputs/
+python ./example.py | tee ./example_outputs/example.py.log
+"""
