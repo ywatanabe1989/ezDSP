@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 16:00:50 (ywatanabe)"
+# Time-stamp: "2024-04-08 16:11:31 (ywatanabe)"
 
 import matplotlib
 
@@ -79,7 +79,7 @@ def plot_signals(plt, sigs, sig_type):
                 _tt,
                 _fs,
             ) = sigs[_col]
-            ax.plot(_tt, _xx[i_batch, i_ch], label=_col, c="blue")
+            ax.plot(_tt, _xx[i_batch, i_ch], label=_col, c=CC["blue"])
 
         # Main
         xx, tt, fs = sigs[col]
@@ -89,7 +89,7 @@ def plot_signals(plt, sigs, sig_type):
                 tt,
                 xx[i_batch, i_ch],
                 label=col,
-                c="red" if col == "hilbert_amp" else "blue",
+                c=CC["red"] if col == "hilbert_amp" else CC["blue"],
             )
         except Exception as e:
             print(e)
@@ -124,7 +124,7 @@ def plot_wavelet(plt, sigs, sig_col, sig_type):
         tt,
         xx[i_batch, i_ch],
         label=sig_col,
-        c="blue",
+        c=CC["blue"],
     )
 
     # Adjusts
@@ -171,7 +171,7 @@ def plot_psd(plt, sigs, sig_col, sig_type):
         tt,
         xx[i_batch, i_ch],
         label=sig_col,
-        c="blue",
+        c=CC["blue"],
     )
     # Adjustments
     axes[0].legend(loc="upper left")
