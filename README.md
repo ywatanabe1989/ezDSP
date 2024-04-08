@@ -13,16 +13,16 @@ $ python ./example.py # ./example_outputs/ will be generated.
 
 ## Samples
 #### Normalization, Resampling, Noise Addition, Filtering, Hilbert Transformation
-<img src="./example_outputs/chirp/1_signals.png" height="200">
+<center><img src="./example_outputs/chirp/1_signals.png" height="300"></center>
 
 #### Wavelet Transformation
-<img src="./example_outputs/ripple/2_wavelet_orig.png" height="200">
+<center><img src="./example_outputs/ripple/2_wavelet_orig.png" height="300"></center>
 
 #### Power Spectrum Density
-<img src="./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="200">
+<center><img src="./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="300"></center>
 
 #### Phase-Amplitude Coupling
-<img src="./example_outputs/tensorpac/4_pac_orig.png" height="200">
+<center><img src="./example_outputs/tensorpac/4_pac_orig.png" height="300"></center>
 
 ## Quick Start
 ``` python
