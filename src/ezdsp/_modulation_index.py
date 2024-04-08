@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 01:55:08 (ywatanabe)"
+# Time-stamp: "2024-04-09 02:03:15 (ywatanabe)"
 
 import torch
 from ezdsp.nn import ModulationIndex
@@ -51,7 +51,7 @@ def calc_pac_with_tensorpac(xx, fs, t_sec):
 
 
 @torch_fn
-def reshape(x, batch_size=2, n_chs=4):
+def reshape(x, batch_size=1, n_chs=1):
     return (
         torch.tensor(x)
         .unsqueeze(0)
@@ -92,6 +92,9 @@ if __name__ == "__main__":
 
     # ezDSP calculation (on CPU now, due to the limitation in computational resources)
     i_batch, i_ch = 0, 0
+    import ipdb
+
+    ipdb.set_trace()
     pac_ed = ezdsp.modulation_index(
         reshape(pha_tp), reshape(amp_tp), device="cpu"
     )[
