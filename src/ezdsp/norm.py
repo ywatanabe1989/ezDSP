@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 14:06:38 (ywatanabe)"
+# Time-stamp: "2024-04-08 14:40:50 (ywatanabe)"
 
+import torch as _torch
 from torch_fn import torch_fn as _torch_fn
 
 

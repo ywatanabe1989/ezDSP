@@ -26,6 +26,255 @@ src
     ├── ref.py
     ├── _resample.py
     ├── _transform.py
+    ├── _utils.py
     └── _wavelet.py
 
-2 directories, 26 files
+2 directories, 27 files
+example_outputs
+├── chirp
+│   ├── 1_signals.png
+│   ├── 2_wavelet_bandpass_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_gauss (sigma = 10).png
+│   ├── 2_wavelet_brown_noise_added.png
+│   ├── 2_wavelet_gaussian_noise_added.png
+│   ├── 2_wavelet_minmax_normed.png
+│   ├── 2_wavelet_orig.png
+│   ├── 2_wavelet_pink_noise_added.png
+│   ├── 2_wavelet_resampled.png
+│   ├── 2_wavelet_white_noise_added.png
+│   ├── 2_wavelet_z_normed.png
+│   ├── 3_psd_bandpass_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_gauss (sigma = 10).png
+│   ├── 3_psd_brown_noise_added.png
+│   ├── 3_psd_gaussian_noise_added.png
+│   ├── 3_psd_minmax_normed.png
+│   ├── 3_psd_orig.png
+│   ├── 3_psd_pink_noise_added.png
+│   ├── 3_psd_resampled.png
+│   ├── 3_psd_white_noise_added.png
+│   ├── 3_psd_z_normed.png
+│   ├── 4_pac_bandpass_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_gauss (sigma = 10).png
+│   ├── 4_pac_brown_noise_added.png
+│   ├── 4_pac_gaussian_noise_added.png
+│   ├── 4_pac_minmax_normed.png
+│   ├── 4_pac_orig.png
+│   ├── 4_pac_pink_noise_added.png
+│   ├── 4_pac_resampled.png
+│   ├── 4_pac_white_noise_added.png
+│   └── 4_pac_z_normed.png
+├── gauss
+│   ├── 1_signals.png
+│   ├── 2_wavelet_bandpass_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_gauss (sigma = 10).png
+│   ├── 2_wavelet_brown_noise_added.png
+│   ├── 2_wavelet_gaussian_noise_added.png
+│   ├── 2_wavelet_minmax_normed.png
+│   ├── 2_wavelet_orig.png
+│   ├── 2_wavelet_pink_noise_added.png
+│   ├── 2_wavelet_resampled.png
+│   ├── 2_wavelet_white_noise_added.png
+│   ├── 2_wavelet_z_normed.png
+│   ├── 3_psd_bandpass_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_gauss (sigma = 10).png
+│   ├── 3_psd_brown_noise_added.png
+│   ├── 3_psd_gaussian_noise_added.png
+│   ├── 3_psd_minmax_normed.png
+│   ├── 3_psd_orig.png
+│   ├── 3_psd_pink_noise_added.png
+│   ├── 3_psd_resampled.png
+│   ├── 3_psd_white_noise_added.png
+│   ├── 3_psd_z_normed.png
+│   ├── 4_pac_bandpass_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_gauss (sigma = 10).png
+│   ├── 4_pac_brown_noise_added.png
+│   ├── 4_pac_gaussian_noise_added.png
+│   ├── 4_pac_minmax_normed.png
+│   ├── 4_pac_orig.png
+│   ├── 4_pac_pink_noise_added.png
+│   ├── 4_pac_resampled.png
+│   ├── 4_pac_white_noise_added.png
+│   └── 4_pac_z_normed.png
+├── meg
+│   ├── 1_signals.png
+│   ├── 2_wavelet_bandpass_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_gauss (sigma = 10).png
+│   ├── 2_wavelet_brown_noise_added.png
+│   ├── 2_wavelet_gaussian_noise_added.png
+│   ├── 2_wavelet_minmax_normed.png
+│   ├── 2_wavelet_orig.png
+│   ├── 2_wavelet_pink_noise_added.png
+│   ├── 2_wavelet_resampled.png
+│   ├── 2_wavelet_white_noise_added.png
+│   ├── 2_wavelet_z_normed.png
+│   ├── 3_psd_bandpass_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_gauss (sigma = 10).png
+│   ├── 3_psd_brown_noise_added.png
+│   ├── 3_psd_gaussian_noise_added.png
+│   ├── 3_psd_minmax_normed.png
+│   ├── 3_psd_orig.png
+│   ├── 3_psd_pink_noise_added.png
+│   ├── 3_psd_resampled.png
+│   ├── 3_psd_white_noise_added.png
+│   ├── 3_psd_z_normed.png
+│   ├── 4_pac_bandpass_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_gauss (sigma = 10).png
+│   ├── 4_pac_brown_noise_added.png
+│   ├── 4_pac_gaussian_noise_added.png
+│   ├── 4_pac_minmax_normed.png
+│   ├── 4_pac_orig.png
+│   ├── 4_pac_pink_noise_added.png
+│   ├── 4_pac_resampled.png
+│   ├── 4_pac_white_noise_added.png
+│   └── 4_pac_z_normed.png
+├── periodic
+│   ├── 1_signals.png
+│   ├── 2_wavelet_bandpass_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_gauss (sigma = 10).png
+│   ├── 2_wavelet_brown_noise_added.png
+│   ├── 2_wavelet_gaussian_noise_added.png
+│   ├── 2_wavelet_minmax_normed.png
+│   ├── 2_wavelet_orig.png
+│   ├── 2_wavelet_pink_noise_added.png
+│   ├── 2_wavelet_resampled.png
+│   ├── 2_wavelet_white_noise_added.png
+│   ├── 2_wavelet_z_normed.png
+│   ├── 3_psd_bandpass_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_gauss (sigma = 10).png
+│   ├── 3_psd_brown_noise_added.png
+│   ├── 3_psd_gaussian_noise_added.png
+│   ├── 3_psd_minmax_normed.png
+│   ├── 3_psd_orig.png
+│   ├── 3_psd_pink_noise_added.png
+│   ├── 3_psd_resampled.png
+│   ├── 3_psd_white_noise_added.png
+│   ├── 3_psd_z_normed.png
+│   ├── 4_pac_bandpass_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_gauss (sigma = 10).png
+│   ├── 4_pac_brown_noise_added.png
+│   ├── 4_pac_gaussian_noise_added.png
+│   ├── 4_pac_minmax_normed.png
+│   ├── 4_pac_orig.png
+│   ├── 4_pac_pink_noise_added.png
+│   ├── 4_pac_resampled.png
+│   ├── 4_pac_white_noise_added.png
+│   └── 4_pac_z_normed.png
+├── ripple
+│   ├── 1_signals.png
+│   ├── 2_wavelet_bandpass_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_gauss (sigma = 10).png
+│   ├── 2_wavelet_brown_noise_added.png
+│   ├── 2_wavelet_gaussian_noise_added.png
+│   ├── 2_wavelet_minmax_normed.png
+│   ├── 2_wavelet_orig.png
+│   ├── 2_wavelet_pink_noise_added.png
+│   ├── 2_wavelet_resampled.png
+│   ├── 2_wavelet_white_noise_added.png
+│   ├── 2_wavelet_z_normed.png
+│   ├── 3_psd_bandpass_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_gauss (sigma = 10).png
+│   ├── 3_psd_brown_noise_added.png
+│   ├── 3_psd_gaussian_noise_added.png
+│   ├── 3_psd_minmax_normed.png
+│   ├── 3_psd_orig.png
+│   ├── 3_psd_pink_noise_added.png
+│   ├── 3_psd_resampled.png
+│   ├── 3_psd_white_noise_added.png
+│   ├── 3_psd_z_normed.png
+│   ├── 4_pac_bandpass_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_gauss (sigma = 10).png
+│   ├── 4_pac_brown_noise_added.png
+│   ├── 4_pac_gaussian_noise_added.png
+│   ├── 4_pac_minmax_normed.png
+│   ├── 4_pac_orig.png
+│   ├── 4_pac_pink_noise_added.png
+│   ├── 4_pac_resampled.png
+│   ├── 4_pac_white_noise_added.png
+│   └── 4_pac_z_normed.png
+├── tensorpac
+│   ├── 1_signals.png
+│   ├── 2_wavelet_bandpass_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_filted (20 - 50 Hz).png
+│   ├── 2_wavelet_bandstop_gauss (sigma = 10).png
+│   ├── 2_wavelet_brown_noise_added.png
+│   ├── 2_wavelet_gaussian_noise_added.png
+│   ├── 2_wavelet_minmax_normed.png
+│   ├── 2_wavelet_orig.png
+│   ├── 2_wavelet_pink_noise_added.png
+│   ├── 2_wavelet_resampled.png
+│   ├── 2_wavelet_white_noise_added.png
+│   ├── 2_wavelet_z_normed.png
+│   ├── 3_psd_bandpass_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_filted (20 - 50 Hz).png
+│   ├── 3_psd_bandstop_gauss (sigma = 10).png
+│   ├── 3_psd_brown_noise_added.png
+│   ├── 3_psd_gaussian_noise_added.png
+│   ├── 3_psd_minmax_normed.png
+│   ├── 3_psd_orig.png
+│   ├── 3_psd_pink_noise_added.png
+│   ├── 3_psd_resampled.png
+│   ├── 3_psd_white_noise_added.png
+│   ├── 3_psd_z_normed.png
+│   ├── 4_pac_bandpass_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_filted (20 - 50 Hz).png
+│   ├── 4_pac_bandstop_gauss (sigma = 10).png
+│   ├── 4_pac_brown_noise_added.png
+│   ├── 4_pac_gaussian_noise_added.png
+│   ├── 4_pac_minmax_normed.png
+│   ├── 4_pac_orig.png
+│   ├── 4_pac_pink_noise_added.png
+│   ├── 4_pac_resampled.png
+│   ├── 4_pac_white_noise_added.png
+│   └── 4_pac_z_normed.png
+└── uniform
+    ├── 1_signals.png
+    ├── 2_wavelet_bandpass_filted (20 - 50 Hz).png
+    ├── 2_wavelet_bandstop_filted (20 - 50 Hz).png
+    ├── 2_wavelet_bandstop_gauss (sigma = 10).png
+    ├── 2_wavelet_brown_noise_added.png
+    ├── 2_wavelet_gaussian_noise_added.png
+    ├── 2_wavelet_minmax_normed.png
+    ├── 2_wavelet_orig.png
+    ├── 2_wavelet_pink_noise_added.png
+    ├── 2_wavelet_resampled.png
+    ├── 2_wavelet_white_noise_added.png
+    ├── 2_wavelet_z_normed.png
+    ├── 3_psd_bandpass_filted (20 - 50 Hz).png
+    ├── 3_psd_bandstop_filted (20 - 50 Hz).png
+    ├── 3_psd_bandstop_gauss (sigma = 10).png
+    ├── 3_psd_brown_noise_added.png
+    ├── 3_psd_gaussian_noise_added.png
+    ├── 3_psd_minmax_normed.png
+    ├── 3_psd_orig.png
+    ├── 3_psd_pink_noise_added.png
+    ├── 3_psd_resampled.png
+    ├── 3_psd_white_noise_added.png
+    ├── 3_psd_z_normed.png
+    ├── 4_pac_bandpass_filted (20 - 50 Hz).png
+    ├── 4_pac_bandstop_filted (20 - 50 Hz).png
+    ├── 4_pac_bandstop_gauss (sigma = 10).png
+    ├── 4_pac_brown_noise_added.png
+    ├── 4_pac_gaussian_noise_added.png
+    ├── 4_pac_minmax_normed.png
+    ├── 4_pac_orig.png
+    ├── 4_pac_pink_noise_added.png
+    ├── 4_pac_resampled.png
+    ├── 4_pac_white_noise_added.png
+    └── 4_pac_z_normed.png
+
+7 directories, 238 files

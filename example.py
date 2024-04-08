@@ -1,13 +1,15 @@
-#!/usr/bin/env python3
+#!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 14:29:57 (ywatanabe)"
+# Time-stamp: "2024-04-08 16:00:50 (ywatanabe)"
 
 import matplotlib
 
 matplotlib.use("Agg")
 import ezdsp
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+from numpy_fn import numpy_fn
 
 
 # Functions
@@ -101,6 +103,7 @@ def plot_signals(plt, sigs, sig_type):
     fig.supxlabel("Time [s]")
     fig.supylabel("Voltage")
     fig.suptitle(sig_type)
+    fig.tight_layout()
     return fig
 
 
@@ -144,7 +147,7 @@ def plot_wavelet(plt, sigs, sig_col, sig_type):
 
     fig.supxlabel("Time [s]")
     fig.suptitle(sig_type)
-
+    fig.tight_layout()
     return fig
 
 
@@ -184,30 +187,279 @@ def plot_psd(plt, sigs, sig_col, sig_type):
     axes[1].set_xlabel("Frequency [Hz]")
 
     fig.suptitle(sig_type)
-
+    fig.tight_layout()
     return fig
 
 
 def save_fig(fig, spath):
     import os
 
-    sdir = os.path.split(spath)[0]
-    os.makedirs(sdir, exist_ok=True)
+    _sdir = os.path.split(spath)[0]
+    os.makedirs(_sdir, exist_ok=True)
     fig.savefig(spath)
     print(f"\nSaved to: {spath}")
 
 
+def imshow2d(
+    ax,
+    arr_2d,
+    id=None,
+    track=True,
+    cbar_label=None,
+    cmap="viridis",
+):
+    # Call the original ax.imshow() method
+    arr_2d = arr_2d.T  # Transpose the array to match imshow's expectations
+    im = ax.imshow(arr_2d, cmap=cmap)
+
+    # Create a colorbar
+    fig = ax.get_figure()
+    cbar = fig.colorbar(im, ax=ax)
+    if cbar_label:
+        cbar.set_label(cbar_label)
+
+    # Invert y-axis to match typical image orientation
+    ax.invert_yaxis()
+
+    return fig
+
+
+def set_ticks(ax, xticks=None, yticks=None):
+
+    if xticks is not None:
+        ax.set_xticks(np.arange(0, len(xticks)))
+        ax.set_xticklabels(xticks)
+
+    if yticks is not None:
+        ax.set_yticks(np.arange(0, len(yticks)))
+        ax.set_yticklabels(yticks)
+
+    return ax
+
+
+def plot_pac(plt, sigs, sig_col, sig_type):
+
+    x_3d = sigs[sig_col].signal
+    x_3d = x_3d[0, 0][np.newaxis, np.newaxis]
+    pac, freqs_pha, freqs_amp = ezdsp.pac(x_3d, fs)
+    fig, ax = plt.subplots()
+    i_batch = 0
+    i_ch = 0
+    fig = imshow2d(ax, pac[i_batch, i_ch])
+    ax = set_ticks(
+        ax,
+        xticks=freqs_pha.mean(axis=-1).astype(int),
+        yticks=freqs_amp.mean(axis=-1).astype(int),
+    )
+    ax = set_n_ticks(ax)
+    ax.set_xlabel("Frequency for phase [Hz]")
+    ax.set_ylabel("Frequency for amplitude [Hz]")
+    ax.set_title("PAC")
+    fig.tight_layout()
+    return fig
+
+
+def set_n_ticks(
+    ax,
+    n_xticks=4,
+    n_yticks=4,
+):
+    """
+    Example:
+        ax = set_n_ticks(ax)
+    """
+
+    if n_xticks is not None:
+        ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(n_xticks))
+
+    if n_yticks is not None:
+        ax.yaxis.set_major_locator(matplotlib.ticker.MaxNLocator(n_yticks))
+
+    # Force the figure to redraw to reflect changes
+    ax.figure.canvas.draw()
+
+    return ax
+
+
+def configure_mpl(
+    plt,
+    # Fig Size
+    fig_size_mm=(160, 100),
+    fig_scale=1.0,
+    # DPI
+    dpi_display=100,
+    dpi_save=300,
+    # Font Size
+    font_size_base=8,
+    font_size_title=8,
+    font_size_axis_label=8,
+    font_size_tick_label=7,
+    font_size_legend=6,
+    # Hide spines
+    hide_top_right_spines=True,
+    # line
+    line_width=0.1,
+    # Color transparency
+    alpha=0.75,
+    # Whether to print configurations or not
+    verbose=False,
+    **kwargs,
+):
+    """
+    Configures Matplotlib and Seaborn settings for publication-quality plots.
+    For axis control, refer to the mngs.plt.ax module.
+
+    Example:
+        plt, cc = configure_mpl(plt)
+
+        fig, ax = plt.subplots()
+        x = np.linspace(0, 10, 100)
+        for i_cc, cc_str in enumerate(cc):
+            phase_shift = i_cc * np.pi / len(cc)
+            y = np.sin(x + phase_shift)
+            ax.plot(x, y, color=cc[cc_str], label=f"{cc_str}")
+        ax.legend()
+        plt.show()
+
+    Parameters:
+        plt (matplotlib.pyplot):
+            Matplotlib pyplot module.
+
+        fig_size_mm (tuple of int, optional):
+            Figure width and height in millimeters. Defaults to (160, 100).
+
+        fig_scale (float, optional):
+            Scaling factor for the figure size. Defaults to 1.0.
+
+        dpi_display (int, optional):
+            Display resolution in dots per inch. Defaults to 100.
+
+        dpi_save (int, optional):
+            Resolution for saved figures in dots per inch. Defaults to 300.
+
+        font_size_title (int, optional):
+            Font size for titles. Defaults to 8.
+
+        font_size_axis_label (int, optional):
+            Font size for axis labels. Defaults to 8.
+
+        font_size_tick_label (int, optional):
+            Font size for tick labels. Defaults to 7.
+
+        font_size_legend (int, optional):
+            Font size for legend text. Defaults to 6.
+
+        hide_top_right_spines (bool, optional):
+            If True, hides the top and right spines of the plot. Defaults to True.
+
+        alpha (float, optional):
+            Color transparency. Defaults to 0.75.
+
+        verbose (bool, optional):
+            If True, prints the configuration settings. Defaults to True.
+
+    Returns:
+        dict: A dictionary of the custom colors used in the configuration.
+    """
+
+    def rgba_to_hex(rgba):
+        return "#{:02x}{:02x}{:02x}{:02x}".format(
+            int(rgba[0]), int(rgba[1]), int(rgba[2]), int(rgba[3] * 255)
+        )
+
+    def normalize_rgba(rgba):
+        rgba = list(rgba)
+        rgba[0] /= 255
+        rgba[1] /= 255
+        rgba[2] /= 255
+        rgba = tuple(rgba)
+        return rgba
+
+    COLORS_RGBA = {
+        "blue": (0, 128, 192, alpha),
+        "red": (255, 70, 50, alpha),
+        "pink": (255, 150, 200, alpha),
+        "green": (20, 180, 20, alpha),
+        "yellow": (230, 160, 20, alpha),
+        "grey": (128, 128, 128, alpha),
+        "purple": (200, 50, 255, alpha),
+        "lightblue": (20, 200, 200, alpha),
+        "brown": (128, 0, 0, alpha),
+        "darkblue": (0, 0, 100, alpha),
+        "orange": (228, 94, 50, alpha),
+        "white": (255, 255, 255, alpha),
+        "black": (0, 0, 0, alpha),
+    }
+    COLORS_HEX = {k: rgba_to_hex(v) for k, v in COLORS_RGBA.items()}
+    COLORS_RGBA_NORM = {c: normalize_rgba(v) for c, v in COLORS_RGBA.items()}
+
+    # Normalize figure size from mm to inches
+    figsize_inch = (fig_size_mm[0] / 25.4, fig_size_mm[1] / 25.4)
+
+    # Update Matplotlib configuration
+    plt.rcParams.update(
+        {
+            # Resolution
+            "figure.dpi": dpi_display,
+            "savefig.dpi": dpi_save,
+            # Figure Size
+            "figure.figsize": figsize_inch,
+            # Font Size
+            "font.size": font_size_base,
+            # Title
+            "axes.titlesize": font_size_title,
+            # Axis
+            "axes.labelsize": font_size_axis_label,
+            # Ticks
+            "xtick.labelsize": font_size_tick_label,
+            "ytick.labelsize": font_size_tick_label,
+            # Legend
+            "legend.fontsize": font_size_legend,
+            # Top and Right Axes
+            "axes.spines.top": not hide_top_right_spines,
+            "axes.spines.right": not hide_top_right_spines,
+            # Custom color cycle
+            "axes.prop_cycle": plt.cycler(color=COLORS_RGBA_NORM.values()),
+            # Line
+            "lines.linewidth": line_width,
+        }
+    )
+
+    if verbose:
+        print("\n" + "-" * 40)
+        print("Matplotlib has been configured as follows:\n")
+        print(f"Figure DPI (Display): {dpi_display} DPI")
+        print(f"Figure DPI (Save): {dpi_save} DPI")
+        print(
+            f"Figure Size (Not the Axis Size): "
+            f"{fig_size_mm[0] * fig_scale:.1f} x "
+            f"{fig_size_mm[1] * fig_scale:.1f} mm (width x height)"
+        )
+        print(f"Font Size (Title): {font_size_title} pt")
+        print(f"Font Size (X/Y Label): {font_size_axis_label} pt")
+        print(f"Font Size (Tick Label): {font_size_tick_label} pt")
+        print(f"Font Size (Legend): {font_size_legend} pt")
+        print(f"Hide Top and Right Axes: {hide_top_right_spines}")
+        print(f"Custom Colors (RGBA):")
+        for color_str, rgba in COLORS_RGBA.items():
+            print(f"  {color_str}: {rgba}")
+        print("-" * 40)
+
+    return plt, COLORS_RGBA_NORM
+
+
 if __name__ == "__main__":
+    plt, CC = configure_mpl(plt, verbose=True)
 
     # Parameters
     T_SEC = 4
     SIG_TYPES = [
-        # "uniform",
-        # "gauss",
-        # "periodic",
-        # "chirp",
-        # "ripple",
-        # "meg",
+        "uniform",
+        "gauss",
+        "periodic",
+        "chirp",
+        "ripple",
+        "meg",
         "tensorpac",
     ]
     SRC_FS = 1024
@@ -217,9 +469,7 @@ if __name__ == "__main__":
     HIGH_HZ = 50
     SIGMA = 10
 
-    # plt, CC = mngs.plt.configure_mpl(plt, fig_scale=10)
-
-    sdir = "./ezdsp/example/"
+    sdir = "./example_outputs/"
 
     for sig_type in SIG_TYPES:
         # Demo Signal
@@ -246,8 +496,5 @@ if __name__ == "__main__":
             fig = plot_psd(plt, sigs, sig_col, sig_type)
             save_fig(fig, sdir + f"{sig_type}/3_psd_{sig_col}.png")
 
-    # plt.show()
-
-    """
-    python ./ezdsp/example.py
-    """
+            fig = plot_pac(plt, sigs, sig_col, sig_type)
+            save_fig(fig, sdir + f"{sig_type}/4_pac_{sig_col}.png")
