@@ -18,7 +18,7 @@ $ python ./example.py # ./example_outputs/ will be generated.
 #### [./example_outputs/ripple/2_wavelet_orig.png](./example_outputs/ripple/2_wavelet_orig.png)
 ![chirp wavelet](./example_outputs/ripple/2_wavelet_orig.png)
 
-#### [./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png](./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png)
+#### [./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png](./example_outputs/chirp/3_psd_bandstop_filted\ \(20\ -\ 50\ Hz\).png)
 ![chirp PSD](./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png)
 
 #### [./example_outputs/tensorpac/4_pac_orig.png](./example_outputs/tensorpac/4_pac_orig.png)
