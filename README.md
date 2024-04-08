@@ -12,20 +12,29 @@ $ python ./example.py # ./example_outputs/ will be generated.
 ```
 
 ## Samples
-#### [./example_outputs/chirp/1_signals.png](./example_outputs/chirp/1_signals.png)
-![chirp signals](./example_outputs/chirp/1_signals.png)
+#### Normalization, Resampling, Noise Addition, Filtering, Hilbert Transformation
+<img src="./example_outputs/chirp/1_signals.png" height="150">
 
-#### [./example_outputs/ripple/2_wavelet_orig.png](./example_outputs/ripple/2_wavelet_orig.png)
-![chirp wavelet](./example_outputs/ripple/2_wavelet_orig.png)
+#### Wavelet Transformation
+<img src="./example_outputs/ripple/2_wavelet_orig.png" height="150">
 
-#### [./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png](./example_outputs/chirp/3_psd_bandstop_filted\ \(20\ -\ 50\ Hz\).png)
-![chirp PSD](./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png)
+#### Power Spectrum Density
+<img src="./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="150">
 
-#### [./example_outputs/chirp/3_psd_bandstop_filted (20 - 50 Hz).png](./example_outputs/chirp/3_psd_bandstop_filted%20\(20%20-%2050%20Hz\).png)
-![chirp PSD](./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png)
+#### Phase-Amplitude Coupling
+<img src="./example_outputs/tensorpac/4_pac_orig.png" height="150">
 
-#### [./example_outputs/tensorpac/4_pac_orig.png](./example_outputs/tensorpac/4_pac_orig.png)
-![tensorpac PAC](./example_outputs/tensorpac/4_pac_orig.png)
+<!-- #### Normalization, Resampling, Noise Addition, Filtering, Hilbert Transformation
+ !-- ![chirp signals](./example_outputs/chirp/1_signals.png)
+ !-- 
+ !-- #### Wavelet Transformation
+ !-- ![chirp wavelet](./example_outputs/ripple/2_wavelet_orig.png)
+ !-- 
+ !-- #### Power Spectrum Density
+ !-- ![chirp PSD](./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png)
+ !-- 
+ !-- #### Phase-Amplitude Coupling
+ !-- ![tensorpac PAC](./example_outputs/tensorpac/4_pac_orig.png) -->
 
 
 ## Quick Start
