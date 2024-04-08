@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 01:54:55 (ywatanabe)"
+# Time-stamp: "2024-04-09 02:08:47 (ywatanabe)"
 
 import ezdsp
 from ezdsp._modulation_index import calc_pac_with_tensorpac
