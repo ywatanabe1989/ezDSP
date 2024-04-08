@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 17:10:27 (ywatanabe)"
+# Time-stamp: "2024-04-08 18:35:30 (ywatanabe)"
 
 import matplotlib
 
@@ -15,9 +15,6 @@ from numpy_fn import numpy_fn
 # Functions
 def calc_norm_resample_filt_hilbert(xx, tt, fs, sig_type, verbose=True):
     sigs = {"index": ("signal", "time", "fs")}  # Collector
-
-    if sig_type == "tensorpac":
-        xx = xx[:, :, 0]
 
     sigs[f"orig"] = (xx, tt, fs)
 
@@ -156,9 +153,6 @@ def plot_psd(plt, sigs, sig_col, sig_type):
 
     xx, tt, fs = sigs[sig_col]
 
-    # if sig_type == "tensorpac":
-    #     xx = xx[:, :, 0]
-
     # Power Spetrum Density
     psd, ff_pp = ezdsp.psd(xx, fs)
 
@@ -210,6 +204,7 @@ def imshow2d(
     cbar_label=None,
     cmap="viridis",
 ):
+    assert arr_2d.ndim == 2
     # Call the original ax.imshow() method
     arr_2d = arr_2d.T  # Transpose the array to match imshow's expectations
     im = ax.imshow(arr_2d, cmap=cmap)
@@ -240,9 +235,21 @@ def set_ticks(ax, xticks=None, yticks=None):
 
 
 def plot_pac(plt, sigs, sig_col, sig_type):
-
     x_3d = sigs[sig_col].signal
-    x_3d = x_3d[0, 0][np.newaxis, np.newaxis]
+    assert x_3d.ndim == 3
+    # if sig_type == tensorpac -> (batch_size, n_segments, seq_len)
+    # if sig_type != tensorpac -> (batch_size, n_chs, seq_len)
+
+    # To reduce the VRAM load, slice the array into smaller pieces while keeping
+    # the n_segments dimension for the tensorpac demo signal.
+
+    # Slices the batch_size to 1
+    x_3d = x_3d[:1, ...]
+    x_4d = x_3d[np.newaxis, ...]
+
+    print(x_4d.shape)
+
+    # ezdsp.pac recognize the x_4d as (batch_size, n_chs, n_segments, seq_len)
     pac, freqs_pha, freqs_amp = ezdsp.pac(x_3d, fs)
     fig, ax = plt.subplots()
     i_batch = 0
@@ -459,15 +466,15 @@ if __name__ == "__main__":
     T_SEC = 4
     SIG_TYPES = [
         "uniform",
-        "gauss",
-        "periodic",
-        "chirp",
-        "ripple",
-        "meg",
+        # "gauss",
+        # "periodic",
+        # "chirp",
+        # "ripple",
+        # "meg",
         "tensorpac",
     ]
-    SRC_FS = 1024
-    TGT_FS = 512
+    SRC_FS = 512
+    TGT_FS = 256
     FREQS_HZ = [10, 30, 100]
     LOW_HZ = 20
     HIGH_HZ = 50
@@ -481,6 +488,14 @@ if __name__ == "__main__":
         xx, tt, fs = ezdsp.demo_sig(
             t_sec=T_SEC, fs=SRC_FS, freqs_hz=FREQS_HZ, sig_type=sig_type
         )
+        xx_orig = xx.copy()
+
+        # for consistency among various demo signals
+        if sig_type == "tensorpac":
+            # (batch_size, n_chs, n_segments, seq_len) -> (batch_size, n_segments, seq_len)
+            xx = xx_orig[:, 0]
+        else:
+            xx = xx_orig
 
         # Apply calculations on the original signal
         sigs = calc_norm_resample_filt_hilbert(xx, tt, fs, sig_type)

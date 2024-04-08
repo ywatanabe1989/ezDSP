@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 11:30:02 (ywatanabe)"
+# Time-stamp: "2024-04-08 18:01:06 (ywatanabe)"
 
 
 import math
@@ -149,6 +149,7 @@ def modulation_index(pha, amp, n_bins=18):
 
 
 if __name__ == "__main__":
+    import ezdsp
     import matplotlib.pyplot as plt
     import mngs
     import seaborn as sns

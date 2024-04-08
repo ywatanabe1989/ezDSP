@@ -1,12 +1,10 @@
 ![CI](https://github.com/ywatanabe1989/ezdsp/actions/workflows/pip_install.yml/badge.svg)
 ![CI](https://github.com/ywatanabe1989/ezdsp/actions/workflows/run_example.yml/badge.svg)
 
-# EZDSP: Easy Digital Signal Processing
+# ezDSP: Easy Digital Signal Processing
 
-## Key Features
-- **PyTorch Integration**: With functions written in PyTorch ([`./src/ezdsp/nn/`](./src/ezdsp/nn/)), EZDSP leverages the power of parallel computation, making it ideal for machine learning applications.
-- **Automatic Data Handling**: Thanks to the [torch_fn decorator](https://github.com/ywatanabe1989/torch_fn), EZDSP functions accept torch.tensors (CPU & GPU), numpy.ndarray, and pd.DataFrame as input and return in the corresponding data type.
-- **Practical Examples**: [`./example.py`](./example.py) demonstrates all of the functions listed below and generates output figures in [`./example_outputs/`](./example_outputs/).
+ezDSP is a digital signal processing toolbox written in PyTorch ([`./src/ezdsp/nn/`](./src/ezdsp/nn/)). Functions in ezDSP handle not only torch.tensors (CPU & GPU) but also numpy.ndarray and pd.DataFrame, with consistent input-output workflow.
+
 
 ## Installation
 ```bash
@@ -83,17 +81,6 @@ psd, psd_freqs = ezdsp.psd(xx, fs)
 
 # Phase-Amplitude Coupling
 pac, freqs_pha, freqs_amp = ezdsp.pac(x_3d, fs) # This function is computationally demanding. Please monitor the RAM/VRAM usage.
-```
-
-# Citation
-To cite EZDSP in your work, please use the following format:
-``` bibtex
-@misc{ezdsp2024,
-  author = {Watanabe, Yusuke},
-  title = {{EZDSP: Easy Digital Signal Processing}},
-  year = {2023},
-  howpublished = {\url{https://github.com/ywatanabe1989/ezdsp}},
-}
 ```
 
 # Contact

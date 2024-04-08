@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 14:01:29 (ywatanabe)"
+# Time-stamp: "2024-04-08 23:31:41 (ywatanabe)"
 
 import torch
 from ezdsp.nn import ModulationIndex
@@ -16,7 +16,7 @@ def modulation_index(pha, amp, n_bins=18):
     return ModulationIndex(n_bins=n_bins)(pha, amp)
 
 
-def plot_comodulogram_tensorpac(xx, fs, t_sec, ts=None):
+def process_with_tensorpac(xx, fs, t_sec, ts=None):
     import tensorpac
     from tensorpac import Pac
 
@@ -43,14 +43,10 @@ def plot_comodulogram_tensorpac(xx, fs, t_sec, ts=None):
     ax = p.comodulogram(
         pac, title=p.method.replace(" (", f" ({k})\n("), cmap="viridis"
     )
-    # ax = mngs.plt.ax.set_n_ticks(ax)
-    # import ipdb
-
-    # ipdb.set_trace()
     freqs_amp = p.f_amp.mean(axis=-1)
     freqs_pha = p.f_pha.mean(axis=-1)
 
-    return phases, amplitudes, freqs_pha, freqs_amp
+    return phases, amplitudes, freqs_pha, freqs_amp, ax, pac
     # return phases and amplitudes for future use in my implementation
     # as the aim of this code is to confirm the calculation of Modulation Index only
     # without considering bandpass filtering and hilbert transformation.
@@ -66,6 +62,7 @@ def reshape_pha_amp(pha, amp, batch_size=2, n_chs=4):
 
 
 if __name__ == "__main__":
+    import ezdsp
     import matplotlib.pyplot as plt
 
     # Parameters
@@ -77,13 +74,13 @@ if __name__ == "__main__":
     # xx.shape: (8, 19, 20, 512)
 
     # Tensorpac calculation
-    pha, amp, freqs_pha, freqs_amp = plot_comodulogram_tensorpac(
+    pha, amp, freqs_pha, freqs_amp, ax, pac = process_with_tensorpac(
         xx,
         fs,
         t_sec=t_sec,
     )
 
-    # GPU calculation
+    # EZDSP calculation on GPU
     pha, amp = reshape_pha_amp(pha, amp)
     pac = ezdsp.modulation_index(pha, amp)
 

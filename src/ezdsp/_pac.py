@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 14:03:01 (ywatanabe)"
+# Time-stamp: "2024-04-08 18:57:42 (ywatanabe)"
 
 from ezdsp.nn import PAC
 from torch_fn import torch_fn
@@ -22,7 +22,7 @@ def pac(
     PyTorch tensors, NumPy arrays, or pandas DataFrames.
 
     Arguments:
-    - x (torch.Tensor | np.ndarray | pd.DataFrame): Input signal. Shape can be either (batch_size, n_chs, seq_len) or
+    - x (torch.Tensor | np.ndarray | pd.DataFrame): Input signal. Shape can be either 4D (batch_size, n_chs, n_segments, seq_len) or 3D (batch_size, n_chs, seq_len), which will be treated as 1 segment.
     - fs (float): Sampling frequency of the input signal.
     - pha_start_hz (float, optional): Start frequency for phase bands. Default is 2 Hz.
     - pha_end_hz (float, optional): End frequency for phase bands. Default is 20 Hz.
@@ -57,31 +57,32 @@ def pac(
 
 
 if __name__ == "__main__":
+    import ezdsp
+
     # Parameters
-    FS = 512
+    FS = 1024
     T_SEC = 4
 
     xx, tt, fs = ezdsp.demo_sig(
         batch_size=1, n_chs=1, fs=FS, t_sec=T_SEC, sig_type="tensorpac"
     )
-    pac, pha_bands_pha, amp_bands = ezdsp.pac(xx, fs)
-
-    xx, tt, fs = ezdsp.demo_sig(
-        batch_size=1, n_chs=1, fs=FS, t_sec=T_SEC, sig_type="ripple"
+    pac, pha_bands, amp_bands = ezdsp.pac(
+        xx, fs, pha_n_bands=30, amp_n_bands=50
     )
-    pac, pha_bands_pha, amp_bands = ezdsp.pac(xx, fs)
 
-    # Plots PAC, the final output
+    # xx, tt, fs = ezdsp.demo_sig(
+    #     batch_size=1, n_chs=1, fs=FS, t_sec=T_SEC, sig_type="ripple"
+    # )
+
+    # Plots the calculated PAC
     i_batch = 0
     i_ch = 0
     fig, ax = mngs.plt.subplots()
-    ax.imshow2d(
-        pac[i_batch, i_ch].cpu().numpy(),
-    )
+    ax.imshow2d(pac[i_batch, i_ch])
     ax = mngs.plt.ax.set_ticks(
         ax,
-        xticks=np.array(BANDS_PHA).mean(axis=-1).astype(int),
-        yticks=np.array(BANDS_AMP).mean(axis=-1).astype(int),
+        xticks=np.array(pha_bands).mean(axis=-1).astype(int),
+        yticks=np.array(amp_bands).mean(axis=-1).astype(int),
     )
     ax = mngs.plt.ax.set_n_ticks(ax)
     ax.set_xlabel("Frequency for phase [Hz]")

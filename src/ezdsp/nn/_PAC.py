@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 12:28:28 (ywatanabe)"
+# Time-stamp: "2024-04-08 18:38:54 (ywatanabe)"
 
 
 import warnings
@@ -146,7 +146,8 @@ class PAC(nn.Module):
 
         if x.ndim == 3:
             warnings.warn(
-                "'n_segments' was determined to be 1, assuming your input is (batch_size, n_chs, seq_len).",
+                message
+                + f"\n'n_segments' was determined to be 1, assuming your input is (batch_size, n_chs, seq_len).",
                 UserWarning,
             )
             x = x.unsqueeze(-2)

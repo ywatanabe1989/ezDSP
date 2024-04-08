@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 13:21:18 (ywatanabe)"
+# Time-stamp: "2024-04-08 17:43:19 (ywatanabe)"
 
 import random
 import warnings
@@ -50,6 +50,8 @@ def demo_sig(
     n_chs=19,
     t_sec=4,
     fs=512,
+    f_pha=10,
+    f_amp=100,
     freqs_hz=None,
     sig_type="periodic",
     verbose=False,
@@ -97,6 +99,8 @@ def demo_sig(
             n_chs=n_chs,
             t_sec=t_sec,
             fs=fs,
+            f_pha=f_pha,
+            f_amp=f_amp,
         )
         return xx.astype(np.float32)[..., : len(tt)], tt, fs
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-08 14:34:25 (ywatanabe)"
+# Time-stamp: "2024-04-08 17:37:32 (ywatanabe)"
 
 import math
 import warnings
