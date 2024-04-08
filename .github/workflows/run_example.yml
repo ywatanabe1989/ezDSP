@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: pip install numpy_fn and run example
+    - name: pip install ezdsp and run example
       run: |
-        pip install numpy_fn
+        pip install ezdsp
         python ./example.py
