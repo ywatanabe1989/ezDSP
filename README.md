@@ -29,7 +29,7 @@ $ python ./example.py # ./example_outputs/ will be generated.
 
 #### Phase-Amplitude Coupling
 <div align="center">
-  <img src="./example_outputs/PAC_calculation_with_ezDSP_and_Tensorpac.png" height="400">
+  <img src="./example_outputs/modulation_index_calculation_with_ezDSP_and_Tensorpac.png" height="400">
 </div>
 
 ## Quick Start

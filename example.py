@@ -1,6 +1,6 @@
 #!./env/bin/python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 00:54:41 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:02:23 (ywatanabe)"
 
 import matplotlib
 
@@ -156,7 +156,7 @@ def plot_psd(plt, sigs, sig_col, sig_type):
     # Power Spetrum Density
     psd, ff_pp = ezdsp.psd(xx, fs)
 
-    # Main
+    # Plots
     i_batch = 0
     i_ch = 0
     fig, axes = plt.subplots(nrows=2, sharex=False)

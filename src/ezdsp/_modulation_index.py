@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 00:42:53 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:04:24 (ywatanabe)"
 
 import torch
 from ezdsp.nn import ModulationIndex
@@ -146,5 +146,6 @@ if __name__ == "__main__":
     # plt.show()
 
     mngs.io.save(
-        fig, "./example_outputs/PAC_calculation_with_ezDSP_and_Tensorpac.png"
+        fig,
+        "./example_outputs/modulation_index_calculation_with_ezDSP_and_Tensorpac.png",
     )
