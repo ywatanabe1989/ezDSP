@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 00:49:47 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:25:00 (ywatanabe)"
 
+import ezdsp
+from ezdsp._modulation_index import calc_pac_with_tensorpac
 from ezdsp.nn import PAC
 from torch_fn import torch_fn
 
@@ -58,35 +60,84 @@ def pac(
 
 
 if __name__ == "__main__":
-    import ezdsp
+    import ezdsp as ed
 
     # Parameters
-    FS = 1024
-    T_SEC = 4
+    FS = 512
+    T_SEC = 5
 
     xx, tt, fs = ezdsp.demo_sig(
         batch_size=1, n_chs=1, fs=FS, t_sec=T_SEC, sig_type="tensorpac"
     )
-    pac, pha_bands, amp_bands = ezdsp.pac(
-        xx, fs, pha_n_bands=30, amp_n_bands=50
+
+    # Tensorpac calculation
+    (
+        pha_tp,
+        amp_tp,
+        freqs_pha_tp,  # (50,)
+        freqs_amp_tp,  # (70,)
+        pac_tp,  # (50, 70)
+    ) = calc_pac_with_tensorpac(
+        xx,
+        fs,
+        t_sec=T_SEC,
     )
 
-    # xx, tt, fs = ezdsp.demo_sig(
-    #     batch_size=1, n_chs=1, fs=FS, t_sec=T_SEC, sig_type="ripple"
-    # )
-
-    # Plots the calculated PAC
-    i_batch = 0
-    i_ch = 0
-    fig, ax = mngs.plt.subplots()
-    ax.imshow2d(pac[i_batch, i_ch])
-    ax = mngs.plt.ax.set_ticks(
-        ax,
-        xticks=np.array(pha_bands).mean(axis=-1).astype(int),
-        yticks=np.array(amp_bands).mean(axis=-1).astype(int),
+    # ezDSP calculation (on CPU now, due to the limitation in computational resources)
+    pac_ed, pha_bands, amp_bands = ed.pac(
+        xx, fs, pha_n_bands=50, amp_n_bands=70, device="cpu"
     )
-    ax = mngs.plt.ax.set_n_ticks(ax)
-    ax.set_xlabel("Frequency for phase [Hz]")
-    ax.set_ylabel("Frequency for amplitude [Hz]")
-    ax.set_title("PAC values")
-    plt.show()
+    i_batch, i_ch = 0, 0
+    pac_ed = pac_ed[i_batch, i_ch]
+
+    # Plots
+    fig, axes = mngs.plt.subplots(ncols=3, sharex=True, sharey=True)
+
+    # To align scalebars
+    vmin = min(np.min(pac_ed), np.min(pac_tp))
+    vmax = max(np.max(pac_ed), np.max(pac_tp))
+
+    # EZDSP
+    axes[0].imshow2d(
+        pac_ed,
+        cbar_label="PAC values",
+        vmin=vmin,
+        vmax=vmax,
+    )
+    axes[0].set_title("ezDSP")
+
+    # Tensorpac
+    axes[1].imshow2d(
+        pac_tp,
+        cbar_label="PAC values",
+        vmin=vmin,
+        vmax=vmax,
+    )
+    axes[1].set_title("Tensorpac")
+
+    # Diff.
+    axes[2].imshow2d(
+        pac_ed - pac_tp,
+        cbar_label="PAC values",
+        vmin=vmin,
+        vmax=vmax,
+    )
+    axes[2].set_title("Difference\n(EZDSP - Tensorpac)")
+
+    for ax in axes:
+        ax = mngs.plt.ax.set_ticks(
+            ax,
+            xticks=freqs_pha_tp.astype(int),
+            yticks=freqs_amp_tp.astype(int),
+        )
+        ax = mngs.plt.ax.set_n_ticks(ax)
+
+    fig.supxlabel("Frequency for phase [Hz]")
+    fig.supylabel("Frequency for amplitude [Hz]")
+
+    # plt.show()
+
+    mngs.io.save(
+        fig,
+        "./example_outputs/pac_calculation_with_ezDSP_and_Tensorpac.png",
+    )

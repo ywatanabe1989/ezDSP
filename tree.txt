@@ -276,6 +276,8 @@ example_outputs
 │   ├── 4_pac_resampled.png
 │   ├── 4_pac_white_noise_added.png
 │   └── 4_pac_z_normed.png
-└── example.py.log
+├── example.py.log
+├── modulation_index_calculation_with_ezDSP_and_Tensorpac.png
+└── pac_calculation_with_ezDSP_and_Tensorpac.png
 
-7 directories, 239 files
+7 directories, 241 files

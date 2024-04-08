@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: "2024-04-09 01:04:24 (ywatanabe)"
+# Time-stamp: "2024-04-09 01:10:36 (ywatanabe)"
 
 import torch
 from ezdsp.nn import ModulationIndex
@@ -16,7 +16,7 @@ def modulation_index(pha, amp, n_bins=18, device="cuda"):
     return ModulationIndex(n_bins=n_bins)(pha, amp)
 
 
-def calc_pac_with_tensorpac(xx, fs, t_sec, ts=None):
+def calc_pac_with_tensorpac(xx, fs, t_sec):
     import tensorpac
 
     # Morlet's Wavelet Transfrmation
