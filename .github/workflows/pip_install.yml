@@ -1,0 +1,16 @@
+name: pip_install
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: pip install numpy_fn
+      run: |
+        pip install numpy_fn
