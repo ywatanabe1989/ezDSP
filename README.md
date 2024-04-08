@@ -12,52 +12,17 @@ $ python ./example.py # ./example_outputs/ will be generated.
 ```
 
 ## Samples
-<table>
-  <tr>
-    <td>Normalization, Resampling, Noise Addition, Filtering, Hilbert Transformation</td>
-    <td><img src="./example_outputs/chirp/1_signals.png" height="200"></td>
-  </tr>
-  <tr>
-    <td>Wavelet Transformation</td>
-    <td><img src="./example_outputs/ripple/2_wavelet_orig.png" height="200"></td>
-  </tr>
-  <tr>
-    <td>Power Spectrum Density</td>
-    <td><img src="./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="200"></td>
-  </tr>
-  <tr>
-    <td>Phase-Amplitude Coupling</td>
-    <td><img src="./example_outputs/tensorpac/4_pac_orig.png" height="200"></td>
-  </tr>
-</table>
+#### Normalization, Resampling, Noise Addition, Filtering, Hilbert Transformation
+<img src="./example_outputs/chirp/1_signals.png" height="200">
 
+#### Wavelet Transformation
+<img src="./example_outputs/ripple/2_wavelet_orig.png" height="200">
 
-<!-- <table>
- !--   <tr>
- !--     <td>Normalization, Resampling, Noise Addition, Filtering, Hilbert Transformation</td>
- !--     <td>Wavelet Transformation</td>
- !--     <td>Power Spectrum Density</td>
- !--     <td>Phase-Amplitude Coupling</td>
- !--   </tr>
- !--   <tr>
- !--     <td><img src="./example_outputs/chirp/1_signals.png" height="200"></td>
- !--     <td><img src="./example_outputs/ripple/2_wavelet_orig.png" height="200"></td>
- !--     <td><img src="./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="200"></td>
- !--     <td><img src="./example_outputs/tensorpac/4_pac_orig.png" height="200"></td>
- !--   </tr>
- !-- </table> -->
+#### Power Spectrum Density
+<img src="./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="200">
 
-<!-- #### Normalization, Resampling, Noise Addition, Filtering, Hilbert Transformation
- !-- <img src="./example_outputs/chirp/1_signals.png" height="200">
- !-- 
- !-- #### Wavelet Transformation
- !-- <img src="./example_outputs/ripple/2_wavelet_orig.png" height="200">
- !-- 
- !-- #### Power Spectrum Density
- !-- <img src="./example_outputs/chirp/3_psd_bandstop_filted%20(20%20-%2050%20Hz).png" height="200">
- !-- 
- !-- #### Phase-Amplitude Coupling
- !-- <img src="./example_outputs/tensorpac/4_pac_orig.png" height="200"> -->
+#### Phase-Amplitude Coupling
+<img src="./example_outputs/tensorpac/4_pac_orig.png" height="200">
 
 ## Quick Start
 ``` python
